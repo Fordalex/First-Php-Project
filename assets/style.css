@@ -1,0 +1,40 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+
+/* navigation */
+
+nav {
+    height: 55px;
+    background-color: rgb(255, 255, 82);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+nav ul {
+    margin: 0;
+}
+
+nav li {
+    display: inline;
+    padding: 0px 15px;
+}
+
+
+/* main content */
+
+.page-container {}
+
+
+/* footer */
+
+footer {
+    background-color: rgb(255, 255, 82);
+    margin: 0;
+    padding: 0;
+}
