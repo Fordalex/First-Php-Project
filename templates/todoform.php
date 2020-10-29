@@ -3,20 +3,32 @@
 include_once 'connect_mysql.php';
 
 // Get the data from the form
-$todo = $_POST['todo'];
-$completed = $_POST['completed'];
-if ($completed == 'on') {
-    $completed = 1;
+
+if (isset($_GET['oper'])) {
+    $oper = 'toggle';
+    $id = $_GET['id'];
+    $completed = $_GET['completed'];
 } else {
-    $completed = 0;
-}
-$oper = $_POST['oper'];
+    $todo = $_POST['todo'];
+    $completed = $_POST['completed'];
+    if ($completed == 'on') {
+        $completed = 1;
+    } else {
+        $completed = 0;
+    };
+};
 
 
 // Create, update and delete data from the database.
-if ($oper == 'add') {
-    mysqli_query($conn, "INSERT INTO to_do (`name`, `completed`) VALUES ('$todo',$completed)") or die('There was a problem submitting the form!');
-} elseif ($oper == 'toggle') {
+if ($oper == 'toggle') {
+    echo $id . $oper;
+    if ($completed) {
+        $completed = 0;
+    } else {
+        $completed = 1;
+    };
+    mysqli_query($conn, "UPDATE `to_do` SET `completed`=$completed WHERE id=$id") or die('There was a problem updaing the data!');
+} else {
     mysqli_query($conn, "INSERT INTO to_do (`name`, `completed`) VALUES ('$todo',$completed)") or die('There was a problem submitting the form!');
 }
 

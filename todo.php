@@ -25,20 +25,21 @@ $result = mysqli_query($conn, "SELECT * FROM to_do");
             // assign the variables
             $id = $row["id"];
             $name = $row['name'];
-            $completed;
-            if ($row['completed']) {
-                $completed = '<img src="https://img.icons8.com/fluent/20/000000/checked-2.png"/>';
+            $completedIcon;
+            $completed = $row['completed'];
+            if ($completed) {
+                $completedIcon = '<img src="https://img.icons8.com/fluent/20/000000/checked-2.png"/>';
             } else {
-                $completed = '<img src="https://img.icons8.com/fluent/20/000000/close-window.png"/>';
+                $completedIcon = '<img src="https://img.icons8.com/fluent/20/000000/close-window.png"/>';
             };
             // add data to the row
             echo "<tr>
                     <td>$name</td>
-                    <td class='text-center'>$completed</td>
+                    <td class='text-center'>$completedIcon</td>
                     <td class='text-center'>
-                        <form action='templates/todoform.php' method='POST'>
+                        <a href='templates/todoform.php?oper=toggle&id=$id&completed=$completed'>
                             <img src='https://img.icons8.com/fluent/20/000000/change.png'/>
-                        </form>
+                        </a>
                     </td>
                 </tr>";
         }
