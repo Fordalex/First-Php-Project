@@ -4,7 +4,7 @@ include_once "templates/head.html";
 
 include_once "templates/navigation.html"; 
 
-if (isset($_GET["numOne"])) {
+if (isset($_POST["numOne"])) {
     function myCalculator($numOne, $numTwo, $oper) {
         if ($oper == "add") {
             return $numOne + $numTwo;
@@ -15,9 +15,9 @@ if (isset($_GET["numOne"])) {
         }
     }
     
-    $numOne = $_GET["numOne"];
-    $numTwo = $_GET["numTwo"];
-    $oper = $_GET["oper"];
+    $numOne = $_POST["numOne"];
+    $numTwo = $_POST["numTwo"];
+    $oper = $_POST["oper"];
 
     echo "<p>Value: " . myCalculator($numOne, $numTwo, $oper) . "</p>";
     echo "<a href='calculation.php' class='btn btn-dark mt-3'>Again!</a>";
@@ -25,7 +25,7 @@ if (isset($_GET["numOne"])) {
     echo '
     <div class="row m-0 p-0 justify-content-center">
         <div class="col-4">
-        <form action="calculation.php" method="GET">
+        <form action="calculation.php" method="POST">
                 <label>Number One</label>
                 <input type="number" name="numOne" class="form-control">
                 <label>Operation</label>
