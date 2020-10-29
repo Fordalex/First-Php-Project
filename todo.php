@@ -11,15 +11,19 @@ $result = mysqli_query($conn, "SELECT * FROM to_do");
 echo "<table class='todo-table'>";
 // each row from the todo database
 while ($row = mysqli_fetch_assoc($result)) {
-    echo "<tr><td>";
-    echo $row['name'];
-    echo "</td><td>";
+    // assign the variables
+    $name = $row['name'];
+    $completed;
     if ($row['completed']) {
-        echo "Completed";
+        $completed = "Completed";
     } else {
-        echo "To Do";
+        $completed = "To Do";
     };
-    echo "</td></tr>";
+    // add data to the row
+    echo "<tr>
+            <td>$name</td>
+            <td>$completed</td>
+         </tr>";
 }
 echo "</table>";
 
