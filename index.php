@@ -11,6 +11,7 @@
     <!-- main content -->
     <div class="page-container">
    
+        <h3>This is the home page</h3>
        
     </div>
 
