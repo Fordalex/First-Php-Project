@@ -14,10 +14,7 @@
     <div class="page-container d-flex justify-content-center">
     
         <div class="draggable-container">
-            <p draggable="true" class="draggable-item">One</p>
-            <p draggable="true" class="draggable-item">Two</p>
-            <p draggable="true" class="draggable-item">Three</p>
-            <p draggable="true" class="draggable-item">Four</p>
+
         </div>
        
     </div>
