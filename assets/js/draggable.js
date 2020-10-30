@@ -10,7 +10,6 @@ $(document).on('dragend', '.draggable-item', function() {
 
 $(document).on('dragenter', '.draggable-item', function() {
     itemOver = parseInt(this.id);
-    reorderItems();
 });
 
 var itemSelected = 0;
@@ -22,8 +21,8 @@ class Item {
         this.order;
         this.id;
     }
-    html() {
-        return `<p draggable="true" class="draggable-item" id="${this.id}">${this.name}</p>`;
+    html(id) {
+        return `<p draggable="true" class="draggable-item" id="${this.id}">${id + 1}. ${this.name}</p>`;
     }
 }
 
@@ -50,7 +49,7 @@ function reorderItems() {
     itemGoingTo = items[itemOver]['order'];
     if (itemFrom < itemGoingTo) {
         items[itemSelected]['order'] = items[itemOver]['order'] + 1;
-    } else if (itemFrom > itemGoingTo) {
+    } else {
         items[itemSelected]['order'] = items[itemOver]['order'] - 1;
     }
 
@@ -64,7 +63,7 @@ function reorderItems() {
 
     // append the objects to the page
     for (let i = 0; i < itemsSorted.length; i++) {
-        $('.draggable-container').append(itemsSorted[i].html());
+        $('.draggable-container').append(itemsSorted[i].html(i));
     }
 }
 
