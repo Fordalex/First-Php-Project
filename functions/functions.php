@@ -1,5 +1,6 @@
 <?php
 
+// Creates a row for the todo list.
 function create_row($name, $id, $completed) {
     if ($completed) {
         $completedIcon = '<img src="https://img.icons8.com/fluent/20/000000/checked-2.png"/>';

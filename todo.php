@@ -1,3 +1,7 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
 <?php
 
 include_once "templates/head.html";
@@ -143,3 +147,7 @@ $result = mysqli_query($conn, "SELECT * FROM to_do");
 
 
 <?php include_once "templates/footer.html"; ?>
+
+</body>
+
+</html>
