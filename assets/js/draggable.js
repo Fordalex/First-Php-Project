@@ -1,70 +1,39 @@
-$(document).on('dragstart', '.draggable-item', function() {
-    $(this).addClass('hold');
-});
+const draggables = document.querySelectorAll('.draggable')
+const containers = document.querySelectorAll('.container')
 
-$(document).on('dragend', '.draggable-item', function() {
-    $(this).removeClass('hold');
-    itemSelected = parseInt(this.id);
-    reorderItems();
-});
+draggables.forEach(draggable => {
+    draggable.addEventListener('dragstart', () => {
+        draggable.classList.add('dragging')
+    })
 
-$(document).on('dragenter', '.draggable-item', function() {
-    itemOver = parseInt(this.id);
-});
+    draggable.addEventListener('dragend', () => {
+        draggable.classList.remove('dragging')
+    })
+})
 
-var itemSelected = 0;
-var itemOver = 0;
+containers.forEach(container => {
+    container.addEventListener('dragover', e => {
+        e.preventDefault()
+        const afterElement = getDragAfterElement(container, e.clientY)
+        const draggable = document.querySelector('.dragging')
+        if (afterElement == null) {
+            container.appendChild(draggable)
+        } else {
+            container.insertBefore(draggable, afterElement)
+        }
+    })
+})
 
-class Item {
-    constructor() {
-        this.name;
-        this.order;
-        this.id;
-    }
-    html(id) {
-        return `<p draggable="true" class="draggable-item" id="${this.id}">${id + 1}. ${this.name}</p>`;
-    }
+function getDragAfterElement(container, y) {
+    const draggableElements = [...container.querySelectorAll('.draggable:not(.dragging)')]
+
+    return draggableElements.reduce((closest, child) => {
+        const box = child.getBoundingClientRect()
+        const offset = y - box.top - box.height / 2
+        if (offset < 0 && offset > closest.offset) {
+            return { offset: offset, element: child }
+        } else {
+            return closest
+        }
+    }, { offset: Number.NEGATIVE_INFINITY }).element
 }
-
-apple = new Item();
-apple.name = 'Apple';
-apple.order = 0;
-apple.id = 0;
-
-banana = new Item();
-banana.name = 'Banana';
-banana.order = 2;
-banana.id = 1;
-
-orange = new Item();
-orange.name = 'Orange';
-orange.order = 3;
-orange.id = 2;
-
-var items = [apple, banana, orange];
-var itemsSorted = [apple, banana, orange];
-
-function reorderItems() {
-    itemFrom = items[itemSelected]['order'];
-    itemGoingTo = items[itemOver]['order'];
-    if (itemFrom < itemGoingTo) {
-        items[itemSelected]['order'] = items[itemOver]['order'] + 1;
-    } else {
-        items[itemSelected]['order'] = items[itemOver]['order'] - 1;
-    }
-
-    // empty the container
-    $('.draggable-container').html('');
-
-    // sort the objects
-    itemsSorted.sort(function(a, b) {
-        return a['order'] - b['order']
-    });
-
-    // append the objects to the page
-    for (let i = 0; i < itemsSorted.length; i++) {
-        $('.draggable-container').append(itemsSorted[i].html(i));
-    }
-}
-
-reorderItems();
