@@ -4,26 +4,68 @@ $(document).on('dragstart', '.draggable-item', function() {
 
 $(document).on('dragend', '.draggable-item', function() {
     $(this).removeClass('hold');
+    itemSelected = parseInt(this.id);
     reorderItems();
 });
 
-$(document).on('mouseover', '.draggable-item', function() {
-    console.log(this)
+$(document).on('dragenter', '.draggable-item', function() {
+    itemOver = parseInt(this.id);
+    reorderItems();
 });
 
-itemOne = '<p draggable="true" class="draggable-item">One</p>';
-itemTwo = '<p draggable="true" class="draggable-item">Two</p>';
-itemThree = '<p draggable="true" class="draggable-item">Three</p>';
-itemFour = '<p draggable="true" class="draggable-item">Four</p>';
+var itemSelected = 0;
+var itemOver = 0;
 
-var items = [itemOne, itemTwo, itemThree, itemFour]
-
-function reorderItems() {
-    $('.draggable-container').html('');
-    for (let i = 0; i < items.length; i++) {
-        $('.draggable-container').append(items[i]);
+class Item {
+    constructor() {
+        this.name;
+        this.order;
+        this.id;
+    }
+    html() {
+        return `<p draggable="true" class="draggable-item" id="${this.id}">${this.name}</p>`;
     }
 }
 
+apple = new Item();
+apple.name = 'Apple';
+apple.order = 0;
+apple.id = 0;
+
+banana = new Item();
+banana.name = 'Banana';
+banana.order = 2;
+banana.id = 1;
+
+orange = new Item();
+orange.name = 'Orange';
+orange.order = 3;
+orange.id = 2;
+
+var items = [apple, banana, orange];
+var itemsSorted = [apple, banana, orange];
+
+function reorderItems() {
+    itemFrom = items[itemSelected]['order'];
+    itemGoingTo = items[itemOver]['order'];
+    if (itemFrom < itemGoingTo) {
+        items[itemSelected]['order'] = items[itemOver]['order'] + 1;
+    } else if (itemFrom > itemGoingTo) {
+        items[itemSelected]['order'] = items[itemOver]['order'] - 1;
+    }
+
+    // empty the container
+    $('.draggable-container').html('');
+
+    // sort the objects
+    itemsSorted.sort(function(a, b) {
+        return a['order'] - b['order']
+    });
+
+    // append the objects to the page
+    for (let i = 0; i < itemsSorted.length; i++) {
+        $('.draggable-container').append(itemsSorted[i].html());
+    }
+}
 
 reorderItems();
